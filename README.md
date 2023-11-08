@@ -1,62 +1,66 @@
-# ADL23-HW2
-Dataset & evaluation script for ADL 2023 homework 2
+# Chinese News Summarization
 
-## Dataset
-[download link](https://drive.google.com/file/d/186ejZVADY16RBfVjzcMcz9bal9L3inXC/view?usp=sharing)
+This project aims to generate titles for Chinese news using mT5-small model.
 
-## Installation
-```
-git clone https://github.com/moooooser999/ADL23-HW2.git
-cd ADL23-HW2
-pip install -e tw_rouge
-```
+<p align="center">
+  <img width="800" height="auto" src="images/concept.png" alt="concept.png">
+</p>
 
+## **Prerequisites**
 
-## Usage
-### Use the Script
-```
-usage: eval.py [-h] [-r REFERENCE] [-s SUBMISSION]
+- Python 3.9
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -r REFERENCE, --reference REFERENCE
-  -s SUBMISSION, --submission SUBMISSION
-```
+## **Repository Structure**
 
-Example:
-```
-python eval.py -r public.jsonl -s submission.jsonl
-{
-  "rouge-1": {
-    "f": 0.21999419163162043,
-    "p": 0.2446195813913345,
-    "r": 0.2137398792982201
-  },
-  "rouge-2": {
-    "f": 0.0847583291303246,
-    "p": 0.09419044877345074,
-    "r": 0.08287844474014894
-  },
-  "rouge-l": {
-    "f": 0.21017939117006337,
-    "p": 0.25157090570020846,
-    "r": 0.19404349000921203
-  }
-}
+- **`requirements.txt`**: List of Python packages required for this project.
+- **`download.sh`**: Script download training data and a pre-trained model.
+- **`download.py`**: Script called by `download.sh` to handle the downloading process.
+- **`run.sh`**: Bash script to run the inference code.
+- **`inference.py`**: Python script that performs inference using the pre-trained model.
+- **`train_src`**: Folder containing additional resources for training models on your own.
+- **`report.pdf`**: Explanations of the hyperparameter sweep and generation strategies.
+
+## **Setup**
+
+### **Step 1: Clone the Repository**
+
+```bash
+git clone https://github.com/Hannibal0420/Chinese-News-Summarization.git
+cd Chinese-News-Summarization
 ```
 
+### **Step 2: Install Dependencies**
 
-### Use Python Library
-```
->>> from tw_rouge import get_rouge
->>> get_rouge('我是人', '我是一個人')
-{'rouge-1': {'f': 0.7499999953125, 'p': 1.0, 'r': 0.6}, 'rouge-2': {'f': 0.33333332888888895, 'p': 0.5, 'r': 0.25}, 'rouge-l': {'f': 0.7499999953125, 'p': 1.0, 'r': 0.6}}
->>> get_rouge(['我是人'], [ '我是一個人'])
-{'rouge-1': {'f': 0.7499999953125, 'p': 1.0, 'r': 0.6}, 'rouge-2': {'f': 0.33333332888888895, 'p': 0.5, 'r': 0.25}, 'rouge-l': {'f': 0.7499999953125, 'p': 1.0, 'r': 0.6}}
->>> get_rouge(['我是人'], ['我是一個人'], avg=False)
-[{'rouge-1': {'f': 0.7499999953125, 'p': 1.0, 'r': 0.6}, 'rouge-2': {'f': 0.33333332888888895, 'p': 0.5, 'r': 0.25}, 'rouge-l': {'f': 0.7499999953125, 'p': 1.0, 'r': 0.6}}]
+Install the required Python packages and inference model using the following command:
+
+```bash
+pip install -r requirements.txt
+bash ./download.sh
 ```
 
+## **Run Inference**
 
-## Reference
-[cccntu/tw_rouge](https://github.com/cccntu/tw_rouge)
+To run the inference code, execute the **`run.sh`** script with the following arguments:
+
+- **`${1}`**: Path to **`input.jsonl`**
+- **`${2}`**: Path to **`output.jsonl`**
+
+```bash
+bash ./run.sh /path/to/input.jsonl /path/to/output.jsonl
+```
+
+**Note**: Make sure to replace **`/path/to/input.jsonl`** and **`/path/to/output.jsonl`** with the actual paths to your files. To use the example code in this repo, you can run as below.
+
+```bash
+./run.sh ./data/public.jsonl ./output.jsonl
+```
+
+## Train Your Own Model
+
+In the **`train_src`** folder, you can fine-tune existing models or train from scratch and track the process with Weights & Biases toolkits. These codes are modified from this source:
+
+- Summarization: [Transformers model](https://github.com/huggingface/transformers/blob/main/examples/pytorch/summarization/run_summarization_no_trainer.py) on a extractive and abstractive summarization dataset, like CNN/DailyMail
+
+## **License**
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://chat.openai.com/c/LICENSE.md) file for details.

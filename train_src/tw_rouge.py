@@ -21,6 +21,8 @@ rouge = Rouge()
 
 
 def get_rouge(preds, refs, avg=True, ignore_empty=False):
+    print('preds:', preds)
+    print('refs:', refs)
     """wrapper around: from rouge import Rouge
     Args:
         preds: string or list of strings
