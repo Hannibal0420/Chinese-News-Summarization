@@ -1,1 +1,1 @@
-python3 download.py
+python download.py

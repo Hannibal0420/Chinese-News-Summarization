@@ -150,7 +150,7 @@ with open(args.output_file_name, 'w', encoding='utf-8') as file:
     # Iterate over both lists simultaneously
     for title, id in zip(decoded_preds_list, preds_ids_list):
         # Create a dictionary for the current title and id
-        data = {"title": title, "id": id}
+        data = {"title": title, "id": str(id)}
         # Write the dictionary to the file as a JSON-formatted string
         file.write(json.dumps(data, ensure_ascii=False) + '\n')
 
